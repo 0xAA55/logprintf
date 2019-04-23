@@ -15,7 +15,7 @@ all: liblogprintf.a
 	$(CC) -c $(CFLAGS) $*.c -o $*.o
 	$(CC) -MM $(CFLAGS) $*.c > $*.d
 	
-liblogprintf.a: logprintf.o
+liblogprintf.a: $(OBJS)
 	$(AR) rcu $@ $+
 	$(RANLIB) $@
 
