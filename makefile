@@ -5,10 +5,15 @@ RANLIB = $(GCC_PREFIX)gcc-ranlib
 OPTIMIZATIONS=-g -O3 -fdata-sections -ffunction-sections -fmerge-all-constants -flto -fuse-linker-plugin -ffat-lto-objects
 CFLAGS=-Wall $(OPTIMIZATIONS) -I.. -I../common/inc
 
-includes = $(wildcard *.h)
+OBJS=logprintf.o
 
-%.o: %.c ${includes}
-	$(CC) -c $(CFLAGS) -o $@ $<
+all: liblogprintf.a
+
+-include $(OBJS:.o=.d)
+
+%.o: %.c
+	$(CC) -c $(CFLAGS) $*.c -o $*.o
+	$(CC) -MM $(CFLAGS) $*.c > $*.d
 	
 liblogprintf.a: logprintf.o
 	$(AR) rcu $@ $+
